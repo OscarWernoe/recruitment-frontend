@@ -1,12 +1,15 @@
 import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
-import VueResource from 'vue-resource'; // To get access to VueResource
+import VueResource from 'vue-resource';
 import App from './App.vue'
 
-Vue.use(BootstrapVue)
-Vue.use(VueResource); // To be able to use VueResource
-// Question: what root can I use to test this?
-// Vue.http.options.root = 'http://localhost/'; //The root URL
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+Vue.use(BootstrapVue);
+Vue.use(VueResource);
+
+Vue.http.options.root = 'http://localhost/';
 
 Vue.config.productionTip = false;
 
