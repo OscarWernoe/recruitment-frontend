@@ -63,9 +63,9 @@ export default {
     };
   },
   methods: {
-    onSubmit(evt) {
-      evt.preventDefault();
-      this.$http.post("http://localhost:8080/accounts", this.applicant).then(
+    onSubmit(e) {
+      e.preventDefault();
+      this.$http.post("/accounts", this.applicant).then(
         response => {
           console.log(response);
         },
