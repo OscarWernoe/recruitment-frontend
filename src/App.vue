@@ -1,16 +1,16 @@
 <template>
   <div id="app">
-    <register-component></register-component>
+    <sign-in></sign-in>
   </div>
 </template>
 
 <script>
-import RegisterComponent from './components/RegisterComponent.vue'
+  import SignIn from './components/SignIn.vue'
 
 export default {
   name: 'app',
   components: {
-    RegisterComponent
+    SignIn
   }
 }
 </script>
