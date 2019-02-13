@@ -1,18 +1,16 @@
 <template>
   <div>
-    <b-container fluid>
+    <b-container>
       <b-form @submit="onSubmit" @reset="onReset">
         <b-row>
           <b-form-group label="Username:" label-for="username">
-            <b-form-input id="username" type="text" v-model="signInForm.username" required
-                          placeholder="Enter a username"></b-form-input>
+            <b-form-input id="username" type="text" v-model="signInForm.username" required placeholder="Enter a username"></b-form-input>
           </b-form-group>
         </b-row>
 
         <b-row>
           <b-form-group label="Password:" label-for="password">
-            <b-form-input id="password" type="password" v-model="signInForm.password" required
-                          placeholder="Enter a password"></b-form-input>
+            <b-form-input id="password" type="password" v-model="signInForm.password" required placeholder="Enter a password"></b-form-input>
           </b-form-group>
         </b-row>
 
