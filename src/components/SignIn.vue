@@ -28,6 +28,9 @@
   export default {
     data() {
       return {
+        /**
+         * An object that holds the user data needed to represent the sign in form.
+         * */
         signInForm: {
           username: '',
           password: ''
@@ -35,6 +38,14 @@
       }
     },
     methods: {
+      /**
+       * Called when the user clicks the submit button of the form.
+       * Issues a post request with the supplied user input.
+       *
+       * @public
+       * @event click
+       * @param e - the event.
+       * */
       onSubmit(e) {
         e.preventDefault();
         this.$http.post("http://localhost:8080/session", this.signInForm).then(
@@ -48,6 +59,11 @@
           }
         );
       },
+      /**
+       * Called when the user clicks the reset button. Clears all input fields and their corresponding variables.
+       * @event click
+       * @param e - the event.
+       * */
       onReset(e) {
         e.preventDefault();
         this.signInForm.username = '';

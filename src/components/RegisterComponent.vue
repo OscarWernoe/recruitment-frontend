@@ -63,6 +63,9 @@
 export default {
   data() {
     return {
+      /**
+       * An object that represents an applicant.
+       * */
       applicant: {
         name: "",
         surname: "",
@@ -70,13 +73,19 @@ export default {
         ssn: "",
         username: "",
         password: ""
-      },
-      responses: []
+      }
     };
   },
   methods: {
+    /**
+     * Called when the user clicks the submit button of the form.
+     * Issues a post request with the supplied user input, all the data needed to create a new applicant.
+     * @event click
+     * @param e - the event.
+     * */
     onSubmit(e) {
       e.preventDefault();
+      //fixme: URL is hardcoded from the root.
       this.$http.post("http://localhost:8080/users", this.applicant).then(
         response => {
           // eslint-disable-next-line
