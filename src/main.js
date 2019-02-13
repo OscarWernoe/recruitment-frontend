@@ -1,18 +1,26 @@
 import Vue from 'vue'
-import BootstrapVue from 'bootstrap-vue'
-import VueResource from 'vue-resource';
 import App from './App.vue'
+import Axios from 'axios'
+import BootstrapVue from 'bootstrap-vue'
+import router from './router'
+import store from './store'
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
-Vue.use(BootstrapVue);
-Vue.use(VueResource);
-
-Vue.http.options.root = 'http://localhost/';
+Vue.use(BootstrapVue)
 
 Vue.config.productionTip = false;
+Vue.prototype.$http = Axios
+
+const accessToken = localStorage.getItem('access_token')
+
+if(accessToken) {
+  Vue.prototype.$http.defaults.headers.common['Authorization'] = accessToken
+}
 
 new Vue({
+  router,
+  store,
   render: h => h(App),
 }).$mount('#app')

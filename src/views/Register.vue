@@ -79,23 +79,32 @@ export default {
   methods: {
     /**
      * Called when the user clicks the submit button of the form.
-     * Issues a post request with the supplied user input, all the data needed to create a new applicant.
+     * 
      * @event click
      * @param e - the event.
      * */
     onSubmit(e) {
       e.preventDefault();
-      //fixme: URL is hardcoded from the root.
-      this.$http.post("http://localhost:8080/users", this.applicant).then(
-        response => {
-          // eslint-disable-next-line
-          console.log(response);
-        },
-        error => {
-          // eslint-disable-next-line
-          console.log(error);
-        }
-      );
+      this.$store.dispatch('register', this.applicant)
+      .then(() => this.$router.push('/'))
+      // eslint-disable-next-line
+      .catch(err => console.log(err))
+    },
+
+    /**
+       * Called when the user clicks the reset button. Clears all input fields and their corresponding variables.
+       * 
+       * @event click
+       * @param e - the event.
+       * */
+    onReset(e) {
+      e.preventDefault();
+      this.applicant.name = '';
+      this.applicant.surname = '';
+      this.applicant.email = '';
+      this.applicant.ssn = '';
+      this.applicant.username = '';
+      this.applicant.password = '';
     }
   }
 };
