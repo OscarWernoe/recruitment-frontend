@@ -6,82 +6,30 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    status: '',
-    accessToken: localStorage.getItem('access_token') || '',
-    user: {}
+    currentJWT: '' || localStorage.getItem('accessToken')
   },
   mutations: {
-    auth_request(state) {
-      state.status = 'loading'
-    },
-
-    auth_success(state, accessToken, user) {
-      state.status = 'success'
-      state.accessToken = accessToken
-      state.user = user
-    },
-
-    auth_error(state) {
-      state.status = 'error'
-    },
-
-    logout(state) {
-      state.status = ''
-      state.accessToken = ''
+    setJWT(state, jwt) {
+      state.currentJWT = jwt
     }
   },
   actions: {
-    register({commit}, user) {
-      return new Promise((resolve, reject) => {
-        commit('auth_request')
-        axios({url: 'http://localhost:8000/users', data: user, method: 'POST'})
-        .then(resp => {
-          const accessToken = resp.data.accessToken
-          const user = resp.data.user
-          localStorage.setItem('accessToken', accessToken)
-          axios.defaults.headers.common['Authorization'] = accessToken
-          commit('auth_success', accessToken, user)
-          resolve(resp)
-        })
-        .catch(err => {
-          commit('auth_error', err)
-          localStorage.removeItem('accessToken')
-          reject(err)
-        })
-      })
-    },
-
-    login({commit}, user) {
-      return new Promise((resolve, reject) => {
-        commit('auth_request')
-        axios({url: 'http://localhost:8000/session', data: user, method: 'POST'})
-        .then(resp => {
-          const accessToken = resp.data.accessToken
-          const user = resp.data.user
-          localStorage.setItem('accessToken', accessToken)
-          axios.defaults.headers.common['Authorization'] = accessToken
-          commit('auth_success', accessToken, user)
-          resolve(resp)
-        })
-        .catch(err => {
-          commit('auth_error', err)
-          localStorage.removeItem('accessToken')
-          reject(err)
-        })
-      })
+    async login({commit, state}, {username, password}) {
+      const res = await axios.post('http://localhost:8080/session', {username, password})
+      commit('setJWT', await res.data.accessToken)
+      localStorage.setItem('accessToken', state.currentJWT)
     },
 
     logout({commit}) {
-      return new Promise((resolve) => {
-        commit('logout')
-        localStorage.removeItem('accessToken')
-        delete axios.defaults.headers.common['Authorization']
-        resolve()
-      })
+      commit('setJWT', '')
+      localStorage.removeItem('accessToken')
     }
   },
   getters: {
-    isLoggedIn: state => !!state.accessToken,
-    authStatus: state => state.status
+    jwt: state => state.currentJWT,
+    jwtData: (state, getters) => state.currentJWT ? JSON.parse(atob(getters.jwt.split('.')[1])) : null,
+    jwtSubject: (state, getters) => getters.jwtData ? getters.jwtData.sub : null,
+    jwtRole: (state, getters) => getters.jwtData ? getters.jwtData.role : null,
+    isLoggedIn: state => !!state.currentJWT
   }
 })

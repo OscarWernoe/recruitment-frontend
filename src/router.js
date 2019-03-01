@@ -1,10 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import store from './store'
 import Home from './views/Home.vue'
 import Register from './views/Register.vue'
 import SignIn from './views/SignIn.vue'
-import Secure from './views/Secure.vue'
+import Apply from './views/Apply.vue'
 
 Vue.use(Router)
 
@@ -28,26 +27,14 @@ let router = new Router({
       component: SignIn
     },
     {
-      path: '/secure',
-      name: 'secure',
-      component: Secure,
+      path: '/apply',
+      name: 'apply',
+      component: Apply,
       meta: {
         requiresAuth: true
       }
     }
   ]
-})
-
-router.beforeEach((to, from, next) => {
-  if(to.matched.some(record => record.meta.requiresAuth)) {
-    if(store.getters.isLoggedIn) {
-      next()
-      return
-    }
-    next('/login')
-  } else {
-    next()
-  }
 })
 
 export default router

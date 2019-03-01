@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-container>
-      <b-form @submit="onSubmit" @reset="onReset">
+      <b-form @submit="submit" @reset="reset">
         
         <b-row class="p-1">
           <b-col md="2"><label for="name">First Name:</label></b-col>
@@ -54,49 +54,47 @@
 
       </b-form>
     </b-container>
+    <div>
+      <p>{{ message }}</p>
+    </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   data() {
     return {
-      /**
-       * An object that represents an applicant.
-       * */
       applicant: {
-        name: "",
-        surname: "",
-        email: "",
-        ssn: "",
-        username: "",
-        password: ""
-      }
+        name: '',
+        surname: '',
+        email: '',
+        ssn: '',
+        username: '',
+        password: ''
+      },
+
+      message: ''
     };
   },
+
   methods: {
-    /**
-     * Called when the user clicks the submit button of the form.
-     * 
-     * @event click
-     * @param e - the event.
-     * */
-    onSubmit(e) {
+    submit(e) {
       e.preventDefault();
-      this.$store.dispatch('register', this.applicant)
-      .then(() => this.$router.push('/'))
+      axios({url: 'http://localhost:8080/users', data: this.applicant, method: 'POST'})
+      .then((response) => {
+        if(response.data.success) {
+          this.$router.push('/login')
+        } else {
+          this.message = response.data.message
+        }
+      })
       // eslint-disable-next-line
       .catch(err => console.log(err))
     },
 
-    /**
-       * Called when the user clicks the reset button. Clears all input fields and their corresponding variables.
-       * 
-       * @event click
-       * @param e - the event.
-       * */
-    onReset(e) {
-      e.preventDefault();
+    reset() {
       this.applicant.name = '';
       this.applicant.surname = '';
       this.applicant.email = '';

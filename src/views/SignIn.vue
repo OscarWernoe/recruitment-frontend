@@ -23,48 +23,68 @@
 
       </b-form>
     </b-container>
+    <div>
+      <p>JWT: {{ jwt }}</p>
+      <p>Username: {{ jwtSubject }}</p>
+      <p>Role: {{ jwtRole }}</p>
+    </div>
   </div>
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        /**
-         * An object that holds the user data needed to represent the sign in form.
-         * */
-        signInForm: {
-          username: '',
-          password: ''
-        }
-      }
-    },
-    methods: {
-      /**
-       * Called when the user clicks the submit button of the form.
-       *
-       * @event click
-       * @param e - the event.
-       * */
-      onSubmit(e) {
-        e.preventDefault();
-        this.$store.dispatch('login', this.signInForm)
-        .then(() => this.$router.push('/'))
-        // eslint-disable-next-line
-        .catch(err => console.log(err))
-      },
+import { mapGetters, mapActions } from 'vuex';
 
+export default {
+  data() {
+    return {
       /**
-       * Called when the user clicks the reset button. Clears all input fields and their corresponding variables.
-       * 
-       * @event click
-       * @param e - the event.
+       * An object that holds the user data needed to represent the sign in form.
        * */
-      onReset(e) {
-        e.preventDefault();
-        this.signInForm.username = '';
-        this.signInForm.password = '';
+      signInForm: {
+        username: '',
+        password: ''
       }
     }
+  },
+  
+  computed: {
+    ...mapGetters([
+      'jwt',
+      'jwtSubject',
+      'jwtRole'
+    ])
+  },
+
+  methods: {
+    ...mapActions([
+      'login'
+    ]),
+
+    /**
+     * Called when the user clicks the submit button of the form.
+     *
+     * @event click
+     * @param e - the event.
+     * */
+    onSubmit(e) {
+      e.preventDefault();
+      this.$store.dispatch('login', this.signInForm)
+      //.then(() => this.$router.push('/'))
+      // eslint-disable-next-line
+      .catch(err => console.log(err))
+    },
+
+    /**
+     * Called when the user clicks the reset button. Clears all input fields and their corresponding variables.
+     * 
+     * @event click
+     * @param e - the event.
+     * */
+    onReset(e) {
+      e.preventDefault();
+      this.signInForm.username = '';
+      this.signInForm.password = '';
+    }
   }
+}
 </script>

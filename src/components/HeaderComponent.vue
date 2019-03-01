@@ -8,8 +8,9 @@
     <b-collapse is-nav id="nav_collapse">
       
       <b-navbar-nav>
-        <b-nav-item to="/register" v-if="!isLoggedIn">Register</b-nav-item>
-        <b-nav-item to="/login" v-if="!isLoggedIn">Sign in</b-nav-item>
+        <b-nav-item to="apply" v-if="isLoggedIn">Apply</b-nav-item>
+        <b-nav-item to="register" v-if="!isLoggedIn">Register</b-nav-item>
+        <b-nav-item to="login" v-if="!isLoggedIn">Sign in</b-nav-item>
         <b-nav-item v-if="isLoggedIn"><a @click="logout">Sign out</a></b-nav-item>
       </b-navbar-nav>
     
