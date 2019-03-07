@@ -8,7 +8,7 @@
     <b-collapse is-nav id="nav_collapse">
       
       <b-navbar-nav>
-        <b-nav-item to="apply" v-if="isLoggedIn">Apply</b-nav-item>
+        <b-nav-item to="apply" v-if="isLoggedIn && isApplicant">Apply</b-nav-item>
         <b-nav-item to="register" v-if="!isLoggedIn">Register</b-nav-item>
         <b-nav-item to="login" v-if="!isLoggedIn">Sign in</b-nav-item>
         <b-nav-item v-if="isLoggedIn"><a @click="logout">Sign out</a></b-nav-item>
@@ -22,7 +22,8 @@
 <script>
 export default {
   computed: {
-    isLoggedIn: function() { return this.$store.getters.isLoggedIn }
+    isLoggedIn: function() { return this.$store.getters.isLoggedIn },
+    isApplicant: function() { return this.$store.getters.isApplicant }
   },
   methods: {
     logout: function() {

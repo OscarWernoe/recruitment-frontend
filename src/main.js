@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import Axios from 'axios'
 import BootstrapVue from 'bootstrap-vue'
+import VeeValidate from 'vee-validate';
 import router from './router'
 import store from './store'
 
@@ -9,6 +10,9 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 Vue.use(BootstrapVue)
+Vue.use(VeeValidate, {
+  events: 'blur'
+})
 
 Vue.config.productionTip = false;
 Vue.prototype.$http = Axios

@@ -15,7 +15,7 @@ export default new Vuex.Store({
   },
   actions: {
     async login({commit, state}, {username, password}) {
-      const res = await axios.post('http://localhost:8080/session', {username, password})
+      const res = await axios.post('https://recruitment-backend.herokuapp.com/session', {username, password})
       commit('setJWT', await res.data.accessToken)
       localStorage.setItem('accessToken', state.currentJWT)
     },
@@ -30,6 +30,7 @@ export default new Vuex.Store({
     jwtData: (state, getters) => state.currentJWT ? JSON.parse(atob(getters.jwt.split('.')[1])) : null,
     jwtSubject: (state, getters) => getters.jwtData ? getters.jwtData.sub : null,
     jwtRole: (state, getters) => getters.jwtData ? getters.jwtData.role : null,
-    isLoggedIn: state => !!state.currentJWT
+    isLoggedIn: state => !!state.currentJWT,
+    isApplicant: (state, getters) => getters.jwtRole === 'applicant'
   }
 })

@@ -1,5 +1,5 @@
 <template>
-  <div><p>Success!</p></div>
+  <div><p>This is the application page.</p></div>
 </template>
 
 <script>

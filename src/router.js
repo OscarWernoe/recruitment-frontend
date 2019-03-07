@@ -4,6 +4,7 @@ import Home from './views/Home.vue'
 import Register from './views/Register.vue'
 import SignIn from './views/SignIn.vue'
 import Apply from './views/Apply.vue'
+import store from './store'
 
 Vue.use(Router)
 
@@ -30,11 +31,19 @@ let router = new Router({
       path: '/apply',
       name: 'apply',
       component: Apply,
-      meta: {
-        requiresAuth: true
-      }
     }
   ]
+})
+
+router.beforeEach((to, from, next) => {
+  const applicantPages = ['/apply']
+  const applicantPage = applicantPages.includes(to.path)
+
+  if (applicantPage && (!store.getters.isLoggedIn || !store.getters.isApplicant)) {
+    return next('/');
+  }
+
+  next();
 })
 
 export default router
