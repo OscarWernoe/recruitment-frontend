@@ -98,7 +98,7 @@ export default {
           }
           })
           // eslint-disable-next-line
-          .catch(err => console.log(err))
+          .catch(err => this.message = err.response.data.message)
         }
         
       }).catch(() => {
